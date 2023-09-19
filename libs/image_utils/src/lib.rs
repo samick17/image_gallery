@@ -10,6 +10,7 @@ use std::fs::File;
 use image::io::Reader as ImageReader;
 use image::imageops::FilterType;
 use image::{ImageFormat};
+use wasm_bindgen::prelude::*;
 
 pub fn read_file(file_path: &str) -> Vec<u8> {
     let f = File::open(file_path).unwrap();
@@ -38,4 +39,22 @@ pub fn resize_image(file_path: &str, dest_file_path: &str, new_width: u32, new_h
     };
     img2.resize(new_width, new_height, FilterType::CatmullRom).write_to(&mut buff, image_format).expect("Error encoding image to JPEG");
     write_file(buff.into_inner(), dest_file_path);
+}
+
+#[wasm_bindgen]
+extern {
+    pub fn alert(s: &str);
+}
+
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(s: &str);
+}
+
+#[wasm_bindgen]
+pub fn my_rust_fn() {
+    // TODO
+    log("my_rust_fn called!");
+    alert("Hello!!");
 }
