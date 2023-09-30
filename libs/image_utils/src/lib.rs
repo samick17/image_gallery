@@ -1,17 +1,21 @@
 use std::io::{
     Cursor,
+};
+use std::path::Path;
+use std::ffi::OsStr;
+use image::io::Reader as ImageReader;
+use image::imageops::FilterType;
+use image::{ImageFormat};
+#[cfg(feature = "native_fs")]
+use std::fs::File;
+#[cfg(feature = "native_fs")]
+use std::io::{
     BufReader,
     Read,
     Write,
 };
-use std::path::Path;
-use std::ffi::OsStr;
-use std::fs::File;
-use image::io::Reader as ImageReader;
-use image::imageops::FilterType;
-use image::{ImageFormat};
-use wasm_bindgen::prelude::*;
 
+#[cfg(feature = "native_fs")]
 pub fn read_file(file_path: &str) -> Vec<u8> {
     let f = File::open(file_path).unwrap();
     let mut reader = BufReader::new(f);
@@ -20,13 +24,14 @@ pub fn read_file(file_path: &str) -> Vec<u8> {
     buffer
 }
 
+#[cfg(feature = "native_fs")]
 pub fn write_file(buffer: Vec<u8>, file_path: &str) -> () {
     let mut file = File::create(file_path).unwrap();
     file.write_all(&buffer).unwrap();
 }
 
-pub fn resize_image(file_path: &str, dest_file_path: &str, new_width: u32, new_height: u32) {
-    let bytes = read_file(file_path);
+pub fn resize_image(bytes: Vec<u8>, dest_file_path: &str, new_width: u32, new_height: u32) -> Vec<u8> {
+    // let bytes = read_file(file_path);
     let img2 = ImageReader::new(Cursor::new(bytes)).with_guessed_format().unwrap().decode().unwrap();
     let mut buff = Cursor::new(Vec::new());
     let file_ext = format!(".{}", Path::new(dest_file_path).extension().unwrap().to_str().unwrap());
@@ -38,23 +43,6 @@ pub fn resize_image(file_path: &str, dest_file_path: &str, new_width: u32, new_h
         _ => ImageFormat::Jpeg,
     };
     img2.resize(new_width, new_height, FilterType::CatmullRom).write_to(&mut buff, image_format).expect("Error encoding image to JPEG");
-    write_file(buff.into_inner(), dest_file_path);
-}
-
-#[wasm_bindgen]
-extern {
-    pub fn alert(s: &str);
-}
-
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(js_namespace = console)]
-    fn log(s: &str);
-}
-
-#[wasm_bindgen]
-pub fn my_rust_fn() {
-    // TODO
-    log("my_rust_fn called!");
-    alert("Hello!!");
+    buff.into_inner()
+    // write_file(buff.into_inner(), dest_file_path);
 }

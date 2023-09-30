@@ -4,7 +4,7 @@ cli:
 	cd app && cargo run
 
 build-wasm:
-	cd libs/image_utils && wasm-pack build --target web --release
+	cd libs/image_utils_wasm && wasm-pack build --target web --release
 
 info-wasm:
-	du -sh ./libs/image_utils/pkg/*
+	du -sh ./libs/image_utils_wasm/pkg/*

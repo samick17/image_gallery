@@ -1,10 +1,13 @@
 [package]
-name = "app"
+name = "image_utils_wasm"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[lib]
+crate-type = ["cdylib", "rlib"]
+
 [dependencies]
-cli = { "path" = "../libs/cli" }
-image_utils = { "path" = "../libs/image_utils", "features" = ["native_fs"] }
+image_utils = { "path" = "../image_utils", "features" = ["web_fs"] }
+wasm-bindgen = "0.2.87"
