@@ -8,3 +8,6 @@ build-wasm:
 
 info-wasm:
 	du -sh ./libs/image_utils_wasm/pkg/*
+
+setup-wasm:
+	cp -r ./libs/image_utils_wasm/pkg/ ./web/src/libs/image_utils

@@ -1,0 +1,17 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild src/index.js --bundle --outfile=public/index.js --format=esm --watch"
+  },
+  "author": "",
+  "license": "",
+  "description": "",
+  "devDependencies": {
+    "esbuild": "^0.19.4"
+  },
+  "dependencies": {
+    "react-event-base": "^2.0.0"
+  }
+}
