@@ -11,3 +11,4 @@ info-wasm:
 
 setup-wasm:
 	cp -r ./libs/image_utils_wasm/pkg/ ./web/src/libs/image_utils
+	cp -r ./web/src/libs/image_utils/image_utils_wasm_bg.wasm ./web/public/image_utils_wasm_bg.wasm

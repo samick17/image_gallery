@@ -31,11 +31,8 @@ pub fn write_file(buffer: Vec<u8>, file_path: &str) -> () {
 }
 
 pub fn resize_image(bytes: Vec<u8>, dest_file_path: &str, new_width: u32, new_height: u32) -> Vec<u8> {
-    // let bytes = read_file(file_path);
     let img2 = ImageReader::new(Cursor::new(bytes)).with_guessed_format().unwrap().decode().unwrap();
     let mut buff = Cursor::new(Vec::new());
-    // let file_ext = format!(".{}", Path::new(dest_file_path).extension().unwrap().to_str().unwrap());
-    // println!("{}", file_ext);
     let file_ext = Path::new(dest_file_path).extension().and_then(OsStr::to_str).unwrap();
     let image_format = match file_ext {
         ".jpg" => ImageFormat::Jpeg,
@@ -44,5 +41,4 @@ pub fn resize_image(bytes: Vec<u8>, dest_file_path: &str, new_width: u32, new_he
     };
     img2.resize(new_width, new_height, FilterType::CatmullRom).write_to(&mut buff, image_format).expect("Error encoding image to JPEG");
     buff.into_inner()
-    // write_file(buff.into_inner(), dest_file_path);
 }
