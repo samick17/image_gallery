@@ -2,9 +2,11 @@ import init, {
 	resize_image,
 } from './libs/image_utils/image_utils_wasm.js';
 import { openFile, saveFile } from 'react-event-base/FileUtils';
+import './index.css';
 
 const store = {};
 const images = {};
+let table;
 let serialID = 0;
 
 function fileExtToMimeType(ext) {
@@ -13,7 +15,7 @@ function fileExtToMimeType(ext) {
 		return 'image/jpg';
 	}
 }
-function appendImage(image, parent) {
+function createImage(image) {
 	const img = document.createElement('img');
 	Object.assign(img.style, {
 		width: '15vmin',
@@ -21,13 +23,16 @@ function appendImage(image, parent) {
 		objectFit: 'contain',
 	})
 	img.src = URL.createObjectURL(image);
-	(parent || document.body).append(img);
+	// (parent || document.body).append(img);
+	return img.outerHTML + '</img>';
 }
 function appendImageItem({original, resized}) {
-	const parent = document.createElement('div');
-	appendImage(original, parent);
-	appendImage(resized, parent);
-	document.body.append(parent);
+	// const parent = document.createElement('div');
+	table.appendRow([
+		createImage(original),
+		createImage(resized),
+	]);
+	// document.body.append(parent);
 }
 
 Object.assign(window, {
@@ -54,17 +59,35 @@ function createButton(args) {
 	btn.addEventListener('click', args.click);
 	return btn;
 }
-
+function createTable() {
+	const table = document.createElement('table');
+	table.innerHTML = [
+	'<thead><tr><th>Original</th><th>Resized</th></tr></thead>',
+	'<tbody></tbody>'
+	].join('');
+	const tbody = table.querySelector('tbody');
+	return {
+		element: table,
+		appendRow: (items) => {
+			const tr = document.createElement('tr');
+			items.forEach(item => {
+				const td = document.createElement('td');
+				td.innerHTML = item;
+				tr.append(td);
+			});
+			tbody.append(tr);
+		},
+	};
+}
 // ImageUtils.my_rust_fn();
 (async () => {
 	await init();
 	const openBtn = createButton({
-		text: 'Resize file',
+		text: "Resize file",
 		click: async () => {
 			serialID += 1;
-			const file = await openFile(['.jpg', '.jpeg']);
-			store['file1.jpg'] = new Uint8Array(await file.arrayBuffer());
-			console.log(store['file1.jpg']);
+			const file = await openFile([".jpg", ".jpeg"]);
+			store["file1.jpg"] = new Uint8Array(await file.arrayBuffer());
 			images[serialID] = {
 				original: file,
 			};
@@ -72,4 +95,6 @@ function createButton(args) {
 		},
 	});
 	document.body.append(openBtn);
+	table = createTable();
+	document.body.append(table.element);
 })();
