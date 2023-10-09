@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 cli = { "path" = "../libs/cli" }
 image_utils = { "path" = "../libs/image_utils", "features" = ["native_fs"] }
+wasm_runner = { "path" = "../libs/wasm_runner" }

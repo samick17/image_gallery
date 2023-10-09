@@ -1,8 +1,6 @@
 use std::io::{
     Cursor,
 };
-use std::path::Path;
-use std::ffi::OsStr;
 use image::io::Reader as ImageReader;
 use image::imageops::FilterType;
 use image::{ImageFormat};
@@ -30,10 +28,9 @@ pub fn write_file(buffer: Vec<u8>, file_path: &str) -> () {
     file.write_all(&buffer).unwrap();
 }
 
-pub fn resize_image(bytes: Vec<u8>, dest_file_path: &str, new_width: u32, new_height: u32) -> Vec<u8> {
+pub fn resize_image(bytes: Vec<u8>, file_ext: &str, new_width: u32, new_height: u32) -> Vec<u8> {
     let img2 = ImageReader::new(Cursor::new(bytes)).with_guessed_format().unwrap().decode().unwrap();
     let mut buff = Cursor::new(Vec::new());
-    let file_ext = Path::new(dest_file_path).extension().and_then(OsStr::to_str).unwrap();
     let image_format = match file_ext {
         ".jpg" => ImageFormat::Jpeg,
         ".png" => ImageFormat::Png,

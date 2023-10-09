@@ -34,3 +34,4 @@ pub fn resize_image(file_path: &str, dest_file_path: &str, new_width: u32, new_h
     let out_bytes = image_utils::resize_image(bytes, dest_file_path, new_width, new_height);
     write_file(out_bytes, dest_file_path);
 }
+
