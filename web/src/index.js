@@ -9,47 +9,66 @@ const images = {};
 let table;
 let serialID = 0;
 
+function prettifySize(size) {
+	let sizeText = size.toString();
+	let length = sizeText.length;
+	let result = [];
+	for(let i = Math.ceil(length / 3); i > 0; i--) {
+		result.push(sizeText.substring(length - 3 * (i - 1), length - 3 * i));
+	}
+	return result.join(',') + ' bytes';
+}
 function fileExtToMimeType(ext) {
 	switch(ext) {
 		case '.jpg':
 		return 'image/jpg';
 	}
 }
-function createImage(image) {
+function createImage(id, file) {
 	const img = document.createElement('img');
 	Object.assign(img.style, {
-		width: '15vmin',
-		height: '15vmin',
+		width: '35vmin',
+		height: '35vmin',
 		objectFit: 'contain',
-	})
-	img.src = URL.createObjectURL(image);
-	// (parent || document.body).append(img);
-	return img.outerHTML + '</img>';
+	});
+	img.onload = () => {
+		const imgSize = table.element.querySelector('#' + id).querySelector('.f_img_size');
+		imgSize.innerText = `Image Size: ${img.width} x ${img.height}`;
+		const btnDownload = table.element.querySelector('#' + id).querySelector('button.download');
+		btnDownload.addEventListener('click', () => {
+			saveFile(file.name, file, true);
+		});
+	};
+	img.src = URL.createObjectURL(file);
+	return `<div id="${id}">` +
+	'<div class="f_size">' + `File Size: ${prettifySize(file.size)}` + '</div>' +
+	'<div class="f_img_size">' + '</div>' +
+	img.outerHTML + '</img>' +
+	'<button class="download">Download</button>' +
+	'</div>';
 }
-function appendImageItem({original, resized}) {
-	// const parent = document.createElement('div');
+function appendImageItem(id, {original, resized}) {
 	table.appendRow([
-		createImage(original),
-		createImage(resized),
+		createImage('origin_' + id, original),
+		createImage('resize_' + id, resized),
 	]);
-	// document.body.append(parent);
 }
 
 Object.assign(window, {
 	read_file: (file_path) => {
-		console.log("[ImageGallery] ReadFile: ", file_path);
+		// console.log("[ImageGallery] ReadFile: ", file_path);
 		return store[file_path];
 	},
 	write_file: (buffer, file_path) => {
-		console.log("[ImageGallery] WriteFile: ", buffer, file_path);
+		// console.log("[ImageGallery] WriteFile: ", buffer, file_path);
 		const fileExt = file_path.substr(file_path.lastIndexOf('.'));
 		const option = {
           type: fileExtToMimeType(fileExt),
         };
         const file = new File([buffer], 'resized' + fileExt, option);
         images[serialID].resized = file;
+        appendImageItem(serialID, images[serialID]);
         // saveFile(file.name, file, true);
-        appendImageItem(images[serialID]);
 	},
 });
 

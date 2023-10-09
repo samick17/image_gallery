@@ -3,6 +3,10 @@ MAKEFLAGS += --silent
 cli:
 	cd app && cargo run
 
+.PHONY: web
+web:
+	cd web && serve -s public
+
 build-wasm-web:
 	cd libs/image_utils_wasm && wasm-pack build --target web --release
 
@@ -24,6 +28,10 @@ wasm-native:
 	make build-wasm-native
 	make setup-wasm-native
 	make cli
+
+wasm-web:
+	make build-wasm-web
+	make setup-wasm-web
 
 analysis-wasm-native:
 	du -sh ./libs/image_utils_wasm_native/target/wasm32-unknown-unknown/release/*.wasm

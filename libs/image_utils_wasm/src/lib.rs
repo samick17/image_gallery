@@ -4,15 +4,7 @@ use wasm_bindgen::prelude::*;
 #[wasm_bindgen]
 extern {
     pub fn write_file(buffer: Vec<u8>, file_path: &str);
-}
-
-#[wasm_bindgen]
-extern {
     pub fn read_file(file_path: &str) -> Vec<u8>;
-}
-
-#[wasm_bindgen]
-extern {
     pub fn alert(s: &str);
 }
 
