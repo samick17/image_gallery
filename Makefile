@@ -27,7 +27,7 @@ setup-wasm-native:
 wasm-native:
 	make build-wasm-native
 	make setup-wasm-native
-	make cli
+# 	make cli
 
 wasm-web:
 	make build-wasm-web
