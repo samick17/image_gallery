@@ -32,8 +32,8 @@ impl<T> WasmRuntime<T> {
     }
 }
 
-pub fn execute_wasm(file_path: &str, fn_name: &str) {
+pub fn execute_wasm(file_path: &str, fn_name: &str) -> u32 {
     let mut runtime = WasmRuntime::<i32>::create(file_path, fn_name, 0);
     let add = runtime.exec::<(), u32>();
-    println!("[Exec] Result: {}", add.call(&mut runtime.store, ()).unwrap());
+    add.call(&mut runtime.store, ()).unwrap()
 }

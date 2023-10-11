@@ -46,7 +46,8 @@ fn main() {
             "wasm" => {
                 let wasm_file_path = "./wasm/image_utils_wasm.wasm";
                 let fn_name = "foo";
-                wasm_runner::execute_wasm(wasm_file_path, fn_name);
+                let result = wasm_runner::execute_wasm(wasm_file_path, fn_name);
+                println!("WASM: {}", result);
             },
             "exit" => process::exit(0),
             _ => {
