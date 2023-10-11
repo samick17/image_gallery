@@ -35,3 +35,4 @@ wasm-web:
 
 analysis-wasm-native:
 	du -sh ./libs/image_utils_wasm_native/target/wasm32-unknown-unknown/release/*.wasm
+
