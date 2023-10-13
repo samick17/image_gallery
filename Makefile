@@ -44,4 +44,11 @@ wasm-web:
 analysis-wasm-native:
 	du -sh ./libs/image_utils_wasm_native/target/wasm32-unknown-unknown/release/*.wasm
 
+launch-webserver:
+	cd webserver && cargo run
 
+api-test:
+	curl -X POST http://localhost:4000/api/v1/test
+
+api-api1:
+	curl -X POST http://localhost:4000/api/v1/api1
