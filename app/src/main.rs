@@ -31,10 +31,17 @@ fn path_cwd(file_path: &str) -> String {
     format!("{}/{}", cwd, file_path)
 }
 
+fn print_menu() {
+    println!("{}", "[ImageGallery]");
+}
+
 fn main() {
     loop {
         let prompt = cli::prompt(">");
-        match prompt.as_str() {
+        let args = cli::parse_kwargs(&prompt);
+        let cmd = &args["cmd"];
+        match cmd.as_str() {
+            "help" => print_menu(),
             "resize" => {
                 let src_file_path = path_cwd("../testfiles/pianos_keys_musical_instrument_120891_1080x1920.jpeg");
                 let file_ext = ".jpeg";
