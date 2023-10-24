@@ -33,33 +33,37 @@ fn path_cwd(file_path: &str) -> String {
 
 fn print_menu() {
     println!("{}", "[ImageGallery]");
+    println!("{}", "- resize");
+    println!("{}", "- wasm");
+    println!("{}", "- exit");
 }
 
 fn main() {
     loop {
         let prompt = cli::prompt(">");
         let args = cli::parse_kwargs(&prompt);
-        let cmd = &args["cmd"];
-        match cmd.as_str() {
-            "help" => print_menu(),
-            "resize" => {
-                let src_file_path = path_cwd("../testfiles/pianos_keys_musical_instrument_120891_1080x1920.jpeg");
-                let file_ext = ".jpeg";
-                let file_array = read_file(&src_file_path);
-                let out_file_array = image_utils::resize_image(file_array, &file_ext, 256, 256);
-                let dest_file_path = path_cwd("../testfiles/256.jpeg");
-                write_file(out_file_array, &dest_file_path);
-            },
-            "wasm" => {
-                let wasm_file_path = "./wasm/image_utils_wasm.wasm";
-                let fn_name = "foo";
-                let result = wasm_runner::execute_wasm(wasm_file_path, fn_name);
-                println!("WASM: {}", result);
-            },
-            "exit" => process::exit(0),
-            _ => {
-                println!("{:?}", prompt);
-            },
+        if let Some(cmd) = args.get("cmd") {
+            match cmd.as_str() {
+                "help" => print_menu(),
+                "resize" => {
+                    let src_file_path = path_cwd("../testfiles/pianos_keys_musical_instrument_120891_1080x1920.jpeg");
+                    let file_ext = ".jpeg";
+                    let file_array = read_file(&src_file_path);
+                    let out_file_array = image_utils::resize_image(file_array, &file_ext, 256, 256);
+                    let dest_file_path = path_cwd("../testfiles/256.jpeg");
+                    write_file(out_file_array, &dest_file_path);
+                },
+                "wasm" => {
+                    let wasm_file_path = "./wasm/image_utils_wasm.wasm";
+                    let fn_name = "foo";
+                    let result = wasm_runner::execute_wasm(wasm_file_path, fn_name);
+                    println!("WASM: {}", result);
+                },
+                "exit" => process::exit(0),
+                _ => {
+                    println!("Unknown command: {:?}", prompt);
+                },
+            }
         }
     }
 }
