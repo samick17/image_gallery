@@ -7,3 +7,10 @@ edition = "2021"
 
 [dependencies]
 wasmtime = "13.0.0"
+
+[profile.release]
+strip = true
+opt-level = "s"
+lto = true
+debug = false
+codegen-units = 1

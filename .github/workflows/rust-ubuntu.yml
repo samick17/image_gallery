@@ -1,0 +1,23 @@
+name: Rust
+
+on:
+  push:
+    branches: [ "samick/ci" ]
+  pull_request:
+    branches: [ "samick/ci" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build
+      run: cd libs/image_utils_wasm_native && cargo build --release
+    - name: Check distribution 2
+      run: cd libs/image_utils_wasm_native && ls target/release
+

@@ -12,3 +12,9 @@ image = { version = "0.24.6", features = ["jpeg", "png"]}
 web_fs = []
 native_fs = []
 
+[profile.release]
+strip = true
+opt-level = "s"
+lto = true
+debug = false
+codegen-units = 1

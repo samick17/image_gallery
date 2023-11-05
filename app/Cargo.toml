@@ -10,3 +10,10 @@ clap = "4.4.6"
 cli = { "path" = "../libs/cli" }
 image_utils = { "path" = "../libs/image_utils", "features" = ["native_fs"] }
 wasm_runner = { "path" = "../libs/wasm_runner" }
+
+[profile.release]
+strip = true
+opt-level = "s"
+lto = true
+debug = false
+codegen-units = 1
