@@ -55,9 +55,16 @@ fn main() {
                 },
                 "wasm" => {
                     let wasm_file_path = "./wasm/image_utils_wasm.wasm";
-                    let fn_name = "foo";
-                    let result = wasm_runner::execute_wasm(wasm_file_path, fn_name);
-                    println!("WASM: {}", result);
+                    {
+                        let fn_name = "get_value_i32";
+                        let result = wasm_runner::execute_wasm::<i32>(wasm_file_path, fn_name);
+                        println!("WASM(get_value_i32): {}", result);
+                    }
+                    {
+                        let fn_name = "get_value_f32";
+                        let result = wasm_runner::execute_wasm::<f32>(wasm_file_path, fn_name);
+                        println!("WASM(get_value_f32): {}", result);
+                    }
                 },
                 "exit" => process::exit(0),
                 _ => {

@@ -52,3 +52,15 @@ api-test:
 
 api-api1:
 	curl -X POST http://localhost:4000/api/v1/api1
+
+build-win-app:
+	cd win-app && \
+		rm -rf libs && \
+		mkdir libs
+	cd libs/image_utils_wasm_native && \
+		cargo build --release
+	cp libs/image_utils_wasm_native/target/release/libimage_utils_wasm_native.so win-app/libs/libimage_utils_wasm_native.so
+	cd win-app && \
+		dotnet build --configuration Release
+	cd win-app && \
+		bin/Release/net7.0/win-app

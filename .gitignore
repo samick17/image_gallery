@@ -4,3 +4,6 @@ pkg
 wasm
 testfiles
 .env
+bin
+obj
+libs/*.so
