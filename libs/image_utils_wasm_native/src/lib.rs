@@ -15,4 +15,13 @@ pub extern "C" fn pass_string(arg: *const c_char) -> *mut c_char {
     let c_string = CString::new(format!("{}{}", arg_str, ", value from rust")).unwrap();
     c_string.into_raw()
 }
+// type Callback = extern "C" fn(i32);
+#[no_mangle]
+pub extern "C" fn fn_with_callback(callback: extern "C" fn(i32)) {
+    callback(1);
+    callback(2);
+    callback(3);
+    callback(4);
+    callback(5);
+}
 

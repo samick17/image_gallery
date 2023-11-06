@@ -7,3 +7,4 @@ testfiles
 bin
 obj
 libs/*.so
+win-app/libs/*.so
