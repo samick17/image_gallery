@@ -2,10 +2,11 @@
 
 ## Target Platforms
 
- - Web
- - Windows
- - Android
- - iOS
+ - [ ] Web
+ - [ ] Windows
+ - [ ] Android
+ - [ ] Linux
+ - [ ] iOS
 
 ## Commands
 
