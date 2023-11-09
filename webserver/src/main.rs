@@ -23,7 +23,7 @@ async fn api_test() -> impl Responder {
 #[post("/api/v1/api1")]
 async fn api_api1() -> impl Responder {
     let wasm_file_path = "./wasm/image_utils_wasm.wasm";
-    let fn_name = "api1";
+    let fn_name = "get_value_i32";
     let msg = wasm_runner::execute_wasm(wasm_file_path, fn_name);
     let response = CustomResponse {
         msg: msg
