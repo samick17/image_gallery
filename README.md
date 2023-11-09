@@ -1,5 +1,9 @@
 # Image Gallery
 
+## Document
+
+ - [HackMD](https://hackmd.io/qQzXSWXiStaKni69Y6K4Aw)
+
 ## Target Platforms
 
  - [ ] Web
