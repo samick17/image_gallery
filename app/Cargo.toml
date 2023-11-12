@@ -6,7 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-clap = "4.4.6"
 cli = { "path" = "../libs/cli" }
 image_utils = { "path" = "../libs/image_utils", "features" = ["native_fs"] }
 wasm_runner = { "path" = "../libs/wasm_runner" }
